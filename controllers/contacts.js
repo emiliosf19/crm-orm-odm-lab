@@ -1,9 +1,9 @@
 const { Contact } = require('../models/sequelize');
 
 async function getAll(req, res) {
-  // TODO CHALLENGE 01: recuperar todos los contactos con Sequelize
-  const contacts = [];
-
+  // ✅ TODO CHALLENGE 01: recuperar todos los contactos con Sequelize
+  const contacts = await Contact.findAll({ order: [['id', 'ASC']] });;
+  
   res.status(200).json(contacts);
 }
 
@@ -30,8 +30,12 @@ async function update(req, res) {
   if (!contact) {
     return res.status(404).json({ error: 'Contact not found' });
   }
+  
+  const { firstName, lastName, email, phone, companyId } = req.body;
 
-  // TODO CHALLENGE 07: actualizar el contacto con los datos recibidos en req.body
+  await contact.update({firstName, lastName, email, phone, companyId});
+
+  // ✅ TODO CHALLENGE 07: actualizar el contacto con los datos recibidos en req.body
 
   res.status(200).json(contact);
 }
